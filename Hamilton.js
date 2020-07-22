@@ -1,4 +1,7 @@
-var hamilton_songs = [
+
+//this is the array that hikds all the songs
+var hamilton_songs = [   
+
     "Alexander Hamilton", "Aaron Burr, Sir", "My Shot", "The Story of Tonight", "The Schuyler Sisters" , 
     "Farmer Refuted", "You’ll Be Back", "Right Hand Man", "A Winter’s Ball", "Helpless", "Satisfied", "The Story of Tonight (Reprise)",
     "Wait For It", "Stay Alive", "Ten Duel Commandments", "Meet Me Inside", "That Would Be Enough", "Guns and Ships", 
@@ -10,11 +13,11 @@ var hamilton_songs = [
     "Best of Wives and Best of Women", "The World Was Wide Enough", "Who Lives, Who Dies, Who Tells Your Story",
     "My Shot Rise Up Remix"
 ]
-
-    let song = '';
-    var maxIncorrect = 8;
-    var IncGuesses = 0;
-    var guessedLetters = [];
+//This is where i declare all the variables that i will need
+    let song = ''; //is the answer to the  particular hangman game
+    var maxIncorrect = 8; //maximum number of words you can get wrong
+    var IncGuesses = 0; //your incorrect guesses
+    var guessedLetters = []; //the array where all the guessed letters are stored
     var songStatus = null;
 
     function randomSong() {
@@ -22,4 +25,27 @@ var hamilton_songs = [
         alert(song);
 
     }
+
+    //function for creating the letter board
+    function letterBoards() { 
+        var letterButtons = 'abcdefghijklmnopqrstuvwxyz'.split('').map(letter =>
+          
+            `
+            <button 
+              class="letter-btn"
+              id='` + letter + `' 
+              conClick="handleGuesses('` + letter + `')"
+              >
+                ` + letter + `
+                </button>
+                `).join('');
+                document.getElementById('board').innerHTML = letterButtons
+        };
+        
+    function guessSong() {
+        songStatus = song.split('').map(letter =>)
+    }
+    
+
     randomSong();
+    letterBoards();
