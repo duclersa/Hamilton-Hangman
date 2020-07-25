@@ -14,10 +14,10 @@ var hamilton_songs = [
     "My Shot Rise Up Remix"
 ]
 //This is where i declare all the variables that i will need
-    let song = ''; //is the answer to the  particular hangman game
+    var song = ''; //is the answer to the  particular hangman game
     var maxIncorrect = 8; //maximum number of words you can get wrong
     var IncGuesses = 0; //your incorrect guesses
-    var guessedLetters = []; //the array where all the guessed letters are stored
+    var guessedLetters = []; //the array where all the wrong guessed letters are stored
     var songStatus = null;
 
     function randomSong() {
@@ -27,7 +27,7 @@ var hamilton_songs = [
     }
 
     //function for creating the letter board
-    function letterBoards() { 
+    function letterBoard() { 
         var letterButtons = 'abcdefghijklmnopqrstuvwxyz'.split('').map(letter =>
           
             `
@@ -39,13 +39,65 @@ var hamilton_songs = [
                 ` + letter + `
                 </button>
                 `).join('');
+
                 document.getElementById('board').innerHTML = letterButtons
-        };
-        
+        }
+
+    //checks to see if the letter exists and if not, pushes the letter into the guessedLetters array and disables the letter so itisnt picked again.
+    function guessHandler(letterChoice) {
+            guessedLetters.indexOf(letterChoice) === -1 ? guessedLetters.push(letterChoice) : null;
+            document.getElementById(letterChoice).setAttribute('disabled', true);
+
+        //come back and add code
+        if(song.indexOf(letterChoice) >= 0 ) {
+            guessSong();
+            gameWon();
+        }
+        else if(song.indexOf(letterChoice) < 0) {
+            IncGuesses++;
+            updateIncGuesses();
+            gameLost();
+        }
+
+        }
+    //checks to see of player won the game
+    function gameWon() {
+        if(songStatus === answer){
+            document.getElementById('board').innerHTML = 'Congrats! You Won!';
+        }
+
+    }
+    //checks to see if player lost the game
+    function gameLost() {
+        if(IncGuesses === maxIncorrect ) {
+            document.getElementsById('board').innerHTML = 'Sorry! Try Again Next Time';
+            //answer was code
+        }
+       // document.getElementById('maxInccorect').innerHTML = maxIncorrect;
+    }
+
+    //This is where the letters that are guessed and correct goes  
     function guessSong() {
-        songStatus = song.split('').map(letter =>)
+        songStatus = song.split('').map(letter => (guessedLetters.indexOf(letter) >= 0 ? letter : " _ ")).join('');
+        document.getElementById('guessSong').innerHTML = songStatus;
+    }
+
+    function updateIncGuesses() {
+        document.getElementById('IncGuesses').innerHTML = IncGuesses;
     }
     
+    function gameReset() {
+        IncGuesses = 0;
+        guessedLetters = [];
+        
+        randomSong();
+        guessSong();
+        updateIncGuesses();
+        letterBoard();
+        
+     }
+  
 
     randomSong();
-    letterBoards();
+    letterBoard();
+    guessSong();
